@@ -143,7 +143,114 @@ La arquitectura inicial se organiza en tres capas principales:
 
 Además, el módulo de **Sugerencia IA** se integra con **OpenRouter** para recomendar el rubro, y el módulo de **Contacto** genera el enlace directo hacia **WhatsApp**.
 
-## 7. Cómo responde la arquitectura a los drivers
+## 7. Modelo C4
+
+### 7.1 Nivel 1 — Contexto
+
+```mermaid
+flowchart TB
+    Cliente(["Cliente"])
+    Profesional(["Profesional / Técnico"])
+    Admin(["Administrador"])
+    TH["TRABAJO HUAMANGA<br/>Directorio web de profesionales locales con calificaciones"]
+    WA["WhatsApp<br/>(sistema externo)"]
+    IA["OpenRouter<br/>(sistema externo de IA)"]
+
+    Cliente -->|"Busca, califica y contacta"| TH
+    Profesional -->|"Gestiona su perfil"| TH
+    Admin -->|"Modera y consulta informes"| TH
+    TH -->|"Enlace de contacto"| WA
+    TH -->|"Sugerencia de rubro"| IA
+```
+
+### 7.2 Nivel 2 — Contenedores
+
+```mermaid
+flowchart TB
+    Usuario(["Cliente / Profesional"])
+    Admin(["Administrador"])
+
+    subgraph TH["TRABAJO HUAMANGA"]
+        Web["Aplicación Web<br/>Interfaz responsive"]
+        Panel["Panel de Administración<br/>ASP.NET Core MVC"]
+        Proxy["Proxy reverso<br/>Nginx"]
+        API["API de Aplicación<br/>ASP.NET Core 8 Web API"]
+        Rep["Motor de Reputación"]
+        Cache[("Caché<br/>Redis")]
+        BD[("Base de datos<br/>SQL Server")]
+    end
+
+    IA["OpenRouter"]
+    WA["WhatsApp"]
+
+    Usuario --> Web
+    Admin --> Panel
+    Web -->|"HTTPS / JSON"| Proxy
+    Panel -->|"HTTPS / JSON"| Proxy
+    Proxy --> API
+    API --> Rep
+    API --> Cache
+    API --> BD
+    API -->|"HTTPS"| IA
+    Web -.->|"enlace wa.me"| WA
+```
+
+### 7.3 Nivel 3 — Componentes (API de Aplicación)
+
+```mermaid
+flowchart TB
+    subgraph CTRL["Controladores"]
+        C1["Profesionales"]
+        C2["Búsqueda"]
+        C3["Calificaciones"]
+        C4["Moderación"]
+        C5["Sugerencia"]
+        C6["Informes"]
+    end
+
+    subgraph APP["Casos de Uso y Validadores"]
+        UC["Casos de Uso"]
+        VAL["Validadores"]
+    end
+
+    subgraph DOM["Dominio"]
+        ENT["Entidades de Dominio"]
+        CR["Calculador de Reputación"]
+    end
+
+    subgraph INF["Infraestructura"]
+        REPO["Repositorios"]
+        CACHE["Servicio de Caché"]
+        CIA["Adaptador OpenRouter"]
+        GWA["Generador de enlace WhatsApp"]
+    end
+
+    CTRL --> UC
+    UC --> VAL
+    UC --> ENT
+    UC --> CR
+    UC -.-> REPO
+    UC -.-> CACHE
+    UC -.-> CIA
+    UC -.-> GWA
+```
+
+### 7.4 Despliegue
+
+```mermaid
+flowchart LR
+    Nav["Navegador"] -->|"HTTPS"| Proxy["Contenedor Nginx"]
+    Proxy --> A1["API réplica 1"]
+    Proxy --> A2["API réplica N"]
+    A1 --> Redis[("Contenedor Redis")]
+    A2 --> Redis
+    A1 --> SQL[("Contenedor SQL Server")]
+    A2 --> SQL
+    A1 -->|"HTTPS"| IA["OpenRouter"]
+    A2 -->|"HTTPS"| IA
+```
+
+## 8. Cómo responde la arquitectura a los drivers
 
 | Driver | Respuesta en la arquitectura |
 |---|---|
