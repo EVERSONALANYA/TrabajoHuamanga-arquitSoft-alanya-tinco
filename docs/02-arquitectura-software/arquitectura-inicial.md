@@ -264,7 +264,7 @@ flowchart LR
 | DA08 Mantenibilidad | Las capas y módulos separan responsabilidades; un cambio en un módulo no obliga a modificar los demás. |
 
 ## Documentos relacionados
-- [Decisiones arquitectónicas (ADR)](decisiones-arquitectonicas.md)
+- [Decisiones arquitectónicas (ADR)](../01-analisis-de-sistema/07-decisiones-arquitectonicas.md)
 - [Estilo arquitectónico](estilo-arquitectonico.md)
-- [Enfoque arquitectónico](enfoque/enfoque-arquitectonico.md)
-- [Drivers arquitectónicos (DA06)](../analisis-de-sistema/06-driver-arquitectonicos.md)
+- [Enfoque arquitectónico](enfoque-arquitectonico.md)
+- [Drivers arquitectónicos (DA06)](../01-analisis-de-sistema/06-driver-arquitectonicos.md)
