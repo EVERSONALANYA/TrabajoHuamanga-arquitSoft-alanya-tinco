@@ -55,6 +55,11 @@ tests/
 
 ## Flujo interno: registrar una calificación
 
+![Secuencia de registrar una calificacion](../../img/secuencia-registrar-calificacion.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 sequenceDiagram
     participant C as CalificacionesController
@@ -71,6 +76,8 @@ sequenceDiagram
     R-->>U: guardado
     U-->>C: resultado
 ```
+
+</details>
 
 ## Dependencias permitidas
 

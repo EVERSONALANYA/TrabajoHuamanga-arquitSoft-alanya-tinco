@@ -2,6 +2,11 @@
 
 Muestra la estructura interna del componente **Reputación**, caso de uso `RegistrarCalificacion`.
 
+![C4 nivel 4 - codigo](../img/nivel4-clases.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 classDiagram
     class ICalificacionRepository {
@@ -63,6 +68,8 @@ classDiagram
     CalificacionRepository ..|> ICalificacionRepository
     Profesional ..> Calificacion : promedia
 ```
+
+</details>
 
 | Clase | Capa | Responsabilidad |
 | --- | --- | --- |

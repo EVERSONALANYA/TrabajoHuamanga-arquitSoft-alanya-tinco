@@ -2,6 +2,11 @@
 
 Muestra el sistema en su entorno: quiénes lo usan y con qué sistemas externos se relaciona.
 
+![C4 nivel 1 - contexto del sistema](../img/nivel1-contexto.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 flowchart TD
     Vecino["Vecino<br/>Persona<br/>Busca y califica profesionales"]
@@ -19,6 +24,8 @@ flowchart TD
     Sistema -->|"Genera enlace wa.me"| WA
     Sistema -->|"Consulta el rubro sugerido - API REST"| OR
 ```
+
+</details>
 
 | Elemento | Descripción |
 | --- | --- |

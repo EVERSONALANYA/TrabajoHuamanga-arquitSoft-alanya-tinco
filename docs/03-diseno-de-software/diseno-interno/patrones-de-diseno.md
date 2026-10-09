@@ -51,6 +51,11 @@ public class SugeridorRubroOpenRouter : ISugeridorRubro
 **Problema:** validar una calificación requiere varias reglas (sesión iniciada, puntaje válido, no repetida, no es el mismo profesional) y no conviene un método enorme con muchos `if`.
 **Solución:** cada regla es un validador independiente y la solicitud pasa por la cadena; si uno falla, se rechaza.
 
+![Patron Chain of Responsibility en la validacion de calificaciones](../../img/patron-chain-of-responsibility.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 flowchart LR
     S["Solicitud de calificacion"] --> V1["Validar sesion"]
@@ -59,6 +64,8 @@ flowchart LR
     V3 --> V4["Validar que no se califique a si mismo"]
     V4 --> OK["Calificacion aceptada"]
 ```
+
+</details>
 
 ## Patrones considerados y no usados
 

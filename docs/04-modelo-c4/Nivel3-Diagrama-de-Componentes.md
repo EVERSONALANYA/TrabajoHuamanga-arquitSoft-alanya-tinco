@@ -2,6 +2,11 @@
 
 Muestra los componentes dentro del contenedor **API Trabajo Huamanga**.
 
+![C4 nivel 3 - componentes](../img/nivel3-componentes.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 flowchart TD
     Web["Aplicacion web y panel admin<br/>Contenedor"]
@@ -41,5 +46,7 @@ flowchart TD
     Con --> WA
     Sug --> OR
 ```
+
+</details>
 
 La descripción de cada componente y sus reglas de interacción están en [componentes-arquitectonicos.md](../02-arquitectura-software/componentes-arquitectonicos.md).

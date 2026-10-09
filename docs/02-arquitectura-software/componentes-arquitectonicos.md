@@ -2,6 +2,11 @@
 
 Vista de componentes (nivel 3 del modelo C4) de la API de Trabajo Huamanga. Estilo: monolito modular en capas.
 
+![Diagrama de componentes de la API de Trabajo Huamanga](../img/componentes.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 flowchart TD
     Vecino["Vecino<br/>Persona"]
@@ -50,6 +55,8 @@ flowchart TD
     Con -->|"enlace wa.me"| WA
     Sug -->|"API REST"| OR
 ```
+
+</details>
 
 ## Descripción de los componentes
 

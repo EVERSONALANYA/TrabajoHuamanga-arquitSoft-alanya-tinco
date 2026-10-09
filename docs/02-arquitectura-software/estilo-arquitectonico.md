@@ -20,6 +20,11 @@ Capas = organización lógica; monolito = unidad de despliegue. Pueden coexistir
 
 ## Diagrama
 
+![Diagrama del estilo arquitectonico monolito modular en capas](../img/estilo-arquitectonico.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 flowchart TD
     subgraph ACTORES["ACTORES"]
@@ -71,6 +76,8 @@ flowchart TD
     M4 -->|"enlace wa.me"| WA
     M5 -->|"API REST"| OR
 ```
+
+</details>
 
 ## Reglas de la arquitectura
 

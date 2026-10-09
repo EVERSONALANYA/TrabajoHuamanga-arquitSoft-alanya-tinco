@@ -28,6 +28,11 @@ Las dependencias del código apuntan siempre hacia el interior:
 
 ## Diagrama
 
+![Diagrama del enfoque Clean Architecture](../img/enfoque-arquitectonico.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 flowchart LR
     subgraph PRES["PRESENTACION"]
@@ -64,5 +69,7 @@ flowchart LR
     IA -.->|"implementa"| Puertos
     WA -.->|"implementa"| Puertos
 ```
+
+</details>
 
 Leyenda: la flecha continua es una llamada en tiempo de ejecución; la flecha punteada es una implementación de un contrato definido en la capa interior.

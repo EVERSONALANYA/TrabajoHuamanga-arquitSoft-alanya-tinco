@@ -2,6 +2,11 @@
 
 Muestra las aplicaciones y almacenes de datos que componen el sistema.
 
+![C4 nivel 2 - contenedores](../img/nivel2-contenedores.png)
+
+<details>
+<summary>Ver codigo Mermaid del diagrama</summary>
+
 ```mermaid
 flowchart TD
     Vecino["Vecino<br/>Persona"]
@@ -29,6 +34,8 @@ flowchart TD
     API -->|"enlace wa.me"| WA
     API -->|"API REST"| OR
 ```
+
+</details>
 
 | Contenedor | Tecnología | Responsabilidad |
 | --- | --- | --- |
