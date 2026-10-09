@@ -36,3 +36,20 @@ Los drivers son los requisitos, atributos de calidad y restricciones que **influ
 | DA06 | El sistema debe utilizar una API REST para la comunicación entre frontend y backend. | RC03 – API REST | Limita las alternativas de comunicación entre las partes del sistema. |
 | DA07 | El sistema debe desplegarse en contenedores, sin depender de un proveedor. | RC07, RC09 | Define la arquitectura de despliegue con Docker y la portabilidad del sistema. |
 | DA08 | El sistema debe organizarse en módulos independientes. | AC05 – Mantenibilidad / RC13 | Justifica la arquitectura en capas y la separación por módulos de negocio, facilitando las pruebas. |
+
+## DA06 - Mantenibilidad / evolución modular
+
+| ID | Driver arquitectónico | Origen | ¿Por qué influye? |
+| --- | --- | --- | --- |
+| DA06 | El sistema debe permitir modificar funcionalidades (por ejemplo, las reglas de reputación o el proveedor de IA) sin afectar innecesariamente otros módulos. | Atributo de calidad: Mantenibilidad | Influye en la separación de responsabilidades, la modularidad y las dependencias internas. |
+
+## Drivers y decisión que responde
+
+| Driver | Problema que plantea | Decisión que responde |
+| --- | --- | --- |
+| DA01 - Escalabilidad | Crecerá el número de profesionales y vecinos | Monolito modular con API sin estado, escalable horizontalmente en réplicas |
+| DA02 - Rendimiento | Las búsquedas por rubro y zona serán las más frecuentes | Caché Redis para búsquedas frecuentes e índices por rubro y zona |
+| DA03 - Seguridad e integridad | Hay riesgo de calificaciones falsas o repetidas | Validadores, motor de reputación y moderación por el administrador |
+| DA04 - Integración externa | Hay que comunicarse con WhatsApp y OpenRouter | Integración mediante interfaces y adaptadores |
+| DA05 - API REST | Frontend y backend deben comunicarse por una API | Separar interfaz y backend mediante API REST |
+| DA06 - Mantenibilidad | Los cambios no deben afectar otros módulos | Modularidad + Clean Architecture |
