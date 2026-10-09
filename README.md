@@ -16,13 +16,13 @@ Docente: Ing. Lizbeth Jaico Quispe — Semestre 2026-II
 ## Estructura del repositorio
 | Carpeta / archivo | Contenido |
 |---|---|
-| `analisis-de-sistema/01-actores.md` | Actores humanos y sistemas externos |
-| `analisis-de-sistema/02-historias-del-usuario.md` | Historias de usuario |
-| `analisis-de-sistema/03-requisitos-funcionales.md` | Requisitos funcionales y trazabilidad HU → RF |
-| `analisis-de-sistema/04-atributos-de-calidad.md` | Atributos y escenarios de calidad |
-| `analisis-de-sistema/05-restricciones.md` | Restricciones del proyecto |
-| `analisis-de-sistema/06-driver-arquitectonicos.md` | Drivers arquitectónicos |
-| `arquitectura/arquitectura-inicial.md` | Arquitectura en capas, modelo C4 y diagramas Mermaid |
+| `docs/01-analisis-de-sistema/01-actores.md` | Actores humanos y sistemas externos |
+| `docs/01-analisis-de-sistema/02-historias-del-usuario.md` | Historias de usuario |
+| `docs/01-analisis-de-sistema/03-requisitos-funcionales.md` | Requisitos funcionales y trazabilidad HU → RF |
+| `docs/01-analisis-de-sistema/04-atributos-de-calidad.md` | Atributos y escenarios de calidad |
+| `docs/01-analisis-de-sistema/05-restricciones.md` | Restricciones del proyecto |
+| `docs/01-analisis-de-sistema/06-driver-arquitectonicos.md` | Drivers arquitectónicos |
+| `docs/02-arquitectura-software/arquitectura-inicial.md` | Arquitectura en capas, modelo C4 y diagramas Mermaid |
 
 ## Etapas
 1. **Análisis del sistema:** actores, historias de usuario, requisitos, atributos de calidad, restricciones y drivers.
