@@ -19,15 +19,15 @@ classDiagram
 
     class IValidadorCalificacion {
         <<interface>>
-        +Validar(comando) Resultado
+        +ValidarAsync(comando) Task~Resultado~
     }
 
     class ValidadorPuntaje {
-        +Validar(comando) Resultado
+        +ValidarAsync(comando) Task~Resultado~
     }
 
     class ValidadorNoRepetida {
-        +Validar(comando) Resultado
+        +ValidarAsync(comando) Task~Resultado~
     }
 
     class Calificacion {
@@ -70,4 +70,4 @@ classDiagram
 | `IValidadorCalificacion` y validadores | Aplicación | Reglas de validación en cadena. |
 | `Calificacion`, `Profesional` | Dominio | Entidades y regla del promedio de reputación. |
 | `ICalificacionRepository` | Aplicación | Contrato de acceso a datos. |
-| `CalificacionRepository` | Infraestructura | Implementación con EF Core y SQL Server. |
+| `CalificacionRepository` | Infraestructura | Implementación con EF Core y SQL Server (el boilerplate usa una versión en memoria). |
