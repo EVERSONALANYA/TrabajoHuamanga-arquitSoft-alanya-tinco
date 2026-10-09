@@ -262,3 +262,9 @@ flowchart LR
 | DA06 API REST | Toda comunicación entre la aplicación web, el panel y el backend pasa por la API REST. |
 | DA07 Contenedores | Cada componente se ejecuta en su contenedor y se despliega con Docker Compose en cualquier proveedor. |
 | DA08 Mantenibilidad | Las capas y módulos separan responsabilidades; un cambio en un módulo no obliga a modificar los demás. |
+
+## Documentos relacionados
+- [Decisiones arquitectónicas (ADR)](decisiones-arquitectonicas.md)
+- [Estilo arquitectónico](estilo-arquitectonico.md)
+- [Enfoque arquitectónico](enfoque/enfoque-arquitectonico.md)
+- [Drivers arquitectónicos (DA06)](../analisis-de-sistema/06-driver-arquitectonicos.md)
