@@ -41,7 +41,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5000:80"
+      - "5000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__SqlServer=Server=sqlserver;Database=TrabajoHuamanga;User Id=sa;Password=TuPassword123!;TrustServerCertificate=true
@@ -60,7 +60,7 @@ services:
       context: .
       dockerfile: Dockerfile.api
     ports:
-      - "5001:80"
+      - "5001:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__SqlServer=Server=sqlserver;Database=TrabajoHuamanga;User Id=sa;Password=TuPassword123!;TrustServerCertificate=true

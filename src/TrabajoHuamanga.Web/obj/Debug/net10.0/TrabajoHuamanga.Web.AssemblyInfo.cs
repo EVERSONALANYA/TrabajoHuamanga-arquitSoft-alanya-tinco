@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TrabajoHuamanga.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88c37a10e8430bb086409dfffff96e91ec740362")]
 [assembly: System.Reflection.AssemblyProductAttribute("TrabajoHuamanga.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrabajoHuamanga.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
