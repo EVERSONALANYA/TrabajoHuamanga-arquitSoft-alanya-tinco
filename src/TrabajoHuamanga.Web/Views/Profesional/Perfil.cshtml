@@ -1,0 +1,139 @@
+@model ProfesionalDto
+@{
+    ViewData["Title"] = Model.NombreCompleto;
+    var calificaciones = ViewBag.Calificaciones as List<CalificacionDto> ?? new();
+    var enlaceWhatsApp = ViewBag.EnlaceWhatsApp as string ?? "#";
+}
+
+<!-- Header del perfil -->
+<div class="perfil-header">
+    <div class="row align-items-center">
+        <div class="col-auto">
+            <div class="perfil-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+        <div class="col">
+            <h2 class="mb-1">@Model.NombreCompleto</h2>
+            <span class="rubro-badge" style="background:rgba(255,255,255,.2);color:white;">
+                @Model.RubroNombre
+            </span>
+            <span class="zona-badge ms-2" style="background:rgba(255,255,255,.2);color:white;">
+                <i class="fas fa-map-marker-alt me-1"></i>@Model.ZonaNombre
+            </span>
+            <div class="stars mt-2">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (i <= (int)Math.Round(Model.PromedioCalificacion))
+                    {
+                        <i class="fas fa-star"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-star empty"></i>
+                    }
+                }
+                <span class="ms-2">@Model.PromedioCalificacion.ToString("F1") (@Model.TotalCalificaciones reseñas)</span>
+            </div>
+        </div>
+        <div class="col-auto">
+            <a href="@enlaceWhatsApp" target="_blank" class="btn btn-whatsapp btn-lg">
+                <i class="fab fa-whatsapp me-2"></i>Contactar
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Info del profesional -->
+    <div class="col-md-8">
+        <div class="card card-profesional mb-4">
+            <div class="card-body">
+                <h5><i class="fas fa-info-circle me-2 text-primary"></i>Acerca de</h5>
+                <p>@Model.Descripcion</p>
+                <p class="mb-0">
+                    <i class="fas fa-phone me-2 text-muted"></i>@Model.Telefono
+                </p>
+            </div>
+        </div>
+
+        <!-- Calificaciones -->
+        <div class="card card-profesional">
+            <div class="card-body">
+                <h5 class="mb-3">
+                    <i class="fas fa-star me-2 text-warning"></i>Calificaciones (@calificaciones.Count)
+                </h5>
+
+                @if (calificaciones.Count == 0)
+                {
+                    <p class="text-muted">Aún no hay calificaciones. ¡Sé el primero!</p>
+                }
+                else
+                {
+                    @foreach (var cal in calificaciones)
+                    {
+                        <div class="border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between">
+                                <strong>@cal.NombreUsuario</strong>
+                                <small class="text-muted">@cal.FechaCreacion.ToString("dd/MM/yyyy")</small>
+                            </div>
+                            <div class="stars">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="fas fa-star@(i <= cal.Puntaje ? "" : " empty")"></i>
+                                }
+                            </div>
+                            <p class="mb-1 small">@cal.Comentario</p>
+                            <form asp-controller="Profesional" asp-action="Reportar" method="post" class="d-inline">
+                                <input type="hidden" name="calificacionId" value="@cal.Id" />
+                            </form>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar: Calificar -->
+    <div class="col-md-4">
+        <div class="card card-profesional">
+            <div class="card-body">
+                <h5><i class="fas fa-edit me-2 text-primary"></i>Dejar Calificación</h5>
+                <form asp-controller="Profesional" asp-action="Calificar" method="post">
+                    <input type="hidden" name="ProfesionalId" value="@Model.Id" />
+                    <div class="mb-3">
+                        <label class="form-label">Tu nombre</label>
+                        <input type="text" name="NombreUsuario" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Puntaje</label>
+                        <select name="Puntaje" class="form-select" required>
+                            <option value="5">⭐⭐⭐⭐⭐ Excelente</option>
+                            <option value="4">⭐⭐⭐⭐ Muy bueno</option>
+                            <option value="3">⭐⭐⭐ Bueno</option>
+                            <option value="2">⭐⭐ Regular</option>
+                            <option value="1">⭐ Malo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Comentario</label>
+                        <textarea name="Comentario" class="form-control" rows="3"
+                                  placeholder="¿Cómo fue tu experiencia?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-paper-plane me-1"></i>Enviar Calificación
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card card-profesional mt-3">
+            <div class="card-body text-center">
+                <a href="@enlaceWhatsApp" target="_blank" class="btn btn-whatsapp w-100">
+                    <i class="fab fa-whatsapp me-2"></i>Contactar por WhatsApp
+                </a>
+                <p class="text-muted small mt-2 mb-0">Se abrirá WhatsApp con un mensaje predeterminado</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,160 @@
+/* ═══════════════════════════════════════════════════════════
+   Trabajo Huamanga — Estilos principales
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+    --th-primary: #2563eb;
+    --th-secondary: #059669;
+    --th-accent: #f59e0b;
+    --th-bg: #f8fafc;
+    --th-card: #ffffff;
+    --th-text: #1e293b;
+    --th-muted: #64748b;
+}
+
+body {
+    background-color: var(--th-bg);
+    color: var(--th-text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Navbar ─── */
+.navbar {
+    background: linear-gradient(135deg, var(--th-primary), #1d4ed8) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+/* ─── Hero / Buscador ─── */
+.hero-search {
+    background: linear-gradient(135deg, var(--th-primary), #7c3aed);
+    color: white;
+    padding: 3rem 0;
+    border-radius: 0 0 2rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.hero-search h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* ─── Tarjeta de profesional ─── */
+.card-profesional {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+
+.card-profesional:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+
+.card-profesional .card-body {
+    padding: 1.5rem;
+}
+
+.rubro-badge {
+    display: inline-block;
+    background: #eff6ff;
+    color: var(--th-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.zona-badge {
+    display: inline-block;
+    background: #ecfdf5;
+    color: var(--th-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+}
+
+/* ─── Estrellas de calificación ─── */
+.stars {
+    color: var(--th-accent);
+    font-size: 1.1rem;
+}
+
+.stars .empty {
+    color: #e2e8f0;
+}
+
+/* ─── Perfil ─── */
+.perfil-header {
+    background: linear-gradient(135deg, var(--th-primary), #7c3aed);
+    color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+.perfil-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+}
+
+/* ─── Panel Admin ─── */
+.stat-card {
+    border: none;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    color: white;
+}
+
+.stat-card.profesionales { background: linear-gradient(135deg, var(--th-primary), #3b82f6); }
+.stat-card.reportadas { background: linear-gradient(135deg, #dc2626, #ef4444); }
+
+.stat-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* ─── WhatsApp button ─── */
+.btn-whatsapp {
+    background: #25d366;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-whatsapp:hover {
+    background: #128c7e;
+    color: white;
+}
+
+/* ─── IA Sugerencia ─── */
+.ia-badge {
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* ─── Formularios ─── */
+.form-control:focus, .form-select:focus {
+    border-color: var(--th-primary);
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.2);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    .hero-search { padding: 2rem 0; border-radius: 0 0 1rem 1rem; }
+    .hero-search h1 { font-size: 1.5rem; }
+}

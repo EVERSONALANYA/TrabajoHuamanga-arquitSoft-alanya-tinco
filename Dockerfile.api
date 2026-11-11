@@ -1,0 +1,23 @@
+# Dockerfile para la API (opcional, si se despliega por separado)
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY TrabajoHuamanga.sln .
+COPY src/TrabajoHuamanga.Dominio/TrabajoHuamanga.Dominio.csproj src/TrabajoHuamanga.Dominio/
+COPY src/TrabajoHuamanga.Aplicacion/TrabajoHuamanga.Aplicacion.csproj src/TrabajoHuamanga.Aplicacion/
+COPY src/TrabajoHuamanga.Infraestructura/TrabajoHuamanga.Infraestructura.csproj src/TrabajoHuamanga.Infraestructura/
+COPY src/TrabajoHuamanga.API/TrabajoHuamanga.API.csproj src/TrabajoHuamanga.API/
+COPY src/TrabajoHuamanga.Web/TrabajoHuamanga.Web.csproj src/TrabajoHuamanga.Web/
+COPY src/TrabajoHuamanga.Tests/TrabajoHuamanga.Tests.csproj src/TrabajoHuamanga.Tests/
+
+RUN dotnet restore
+
+COPY src/ src/
+
+RUN dotnet publish src/TrabajoHuamanga.API/TrabajoHuamanga.API.csproj -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/publish .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "TrabajoHuamanga.API.dll"]

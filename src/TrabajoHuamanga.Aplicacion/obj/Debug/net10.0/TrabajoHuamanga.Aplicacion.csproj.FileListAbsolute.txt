@@ -1,0 +1,15 @@
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\bin\Debug\net10.0\TrabajoHuamanga.Aplicacion.deps.json
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\bin\Debug\net10.0\TrabajoHuamanga.Aplicacion.dll
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\bin\Debug\net10.0\TrabajoHuamanga.Aplicacion.pdb
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\bin\Debug\net10.0\TrabajoHuamanga.Dominio.dll
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\bin\Debug\net10.0\TrabajoHuamanga.Dominio.pdb
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\TrabajoHuamanga.Aplicacion.csproj.AssemblyReference.cache
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\TrabajoHuamanga.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\TrabajoHuamanga.Aplicacion.AssemblyInfoInputs.cache
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\TrabajoHuamanga.Aplicacion.AssemblyInfo.cs
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\TrabajoHuamanga.Aplicacion.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\TrabajoH.1D186CA9.Up2Date
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\TrabajoHuamanga.Aplicacion.dll
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\refint\TrabajoHuamanga.Aplicacion.dll
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\TrabajoHuamanga.Aplicacion.pdb
+C:\Users\ASUS\Downloads\TrabajoHuamanga\src\TrabajoHuamanga.Aplicacion\obj\Debug\net10.0\ref\TrabajoHuamanga.Aplicacion.dll

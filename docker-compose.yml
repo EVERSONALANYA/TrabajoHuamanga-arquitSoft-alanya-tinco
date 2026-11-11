@@ -1,0 +1,89 @@
+# ════════════════════════════════════════════════════════════
+# Docker Compose — Trabajo Huamanga
+# Ejecutar: docker-compose up -d
+# ════════════════════════════════════════════════════════════
+
+version: '3.8'
+
+services:
+  # ─── SQL Server ───
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "TuPassword123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "TuPassword123!" -C -Q "SELECT 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Redis (caché de búsquedas) ───
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: redis-cli ping
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # ─── Aplicación Web MVC ───
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__SqlServer=Server=sqlserver;Database=TrabajoHuamanga;User Id=sa;Password=TuPassword123!;TrustServerCertificate=true
+      - ConnectionStrings__Redis=redis:6379
+      - OpenRouter__ApiKey=TU_API_KEY_AQUI
+      - OpenRouter__Model=google/gemini-flash-1.5
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ─── API REST (opcional, para clientes externos) ───
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "5001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__SqlServer=Server=sqlserver;Database=TrabajoHuamanga;User Id=sa;Password=TuPassword123!;TrustServerCertificate=true
+      - ConnectionStrings__Redis=redis:6379
+      - OpenRouter__ApiKey=TU_API_KEY_AQUI
+      - OpenRouter__Model=google/gemini-flash-1.5
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ─── NGINX Reverse Proxy ───
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web
+      - api
+
+volumes:
+  sqlserver_data:
+  redis_data:
