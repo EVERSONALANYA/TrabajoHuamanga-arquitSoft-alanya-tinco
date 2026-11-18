@@ -1,0 +1,85 @@
+@model CrearProfesionalDto
+@{
+    ViewData["Title"] = "Registrar Profesional";
+    var rubros = ViewBag.Rubros as List<Rubro> ?? new();
+    var zonas = ViewBag.Zonas as List<Zona> ?? new();
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card card-profesional">
+            <div class="card-body p-4">
+                <h3 class="mb-4">
+                    <i class="fas fa-user-plus me-2 text-primary"></i>Registrar como Profesional
+                </h3>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>@ViewBag.Error
+                    </div>
+                }
+
+                <form method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Nombre completo *</label>
+                            <input type="text" name="NombreCompleto" class="form-control"
+                                   value="@Model?.NombreCompleto" required
+                                   placeholder="Ej: Juan Pérez López" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Teléfono *</label>
+                            <div class="input-group">
+                                <span class="input-group-text">+51</span>
+                                <input type="tel" name="Telefono" class="form-control"
+                                       value="@Model?.Telefono" required
+                                       placeholder="966123456" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Rubro *</label>
+                            <select name="RubroId" class="form-select" required>
+                                <option value="">Seleccionar rubro...</option>
+                                @foreach (var r in rubros)
+                                {
+                                    <option value="@r.Id">@r.Icono @r.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Zona *</label>
+                            <select name="ZonaId" class="form-select" required>
+                                <option value="">Seleccionar zona...</option>
+                                @foreach (var z in zonas)
+                                {
+                                    <option value="@z.Id">@z.Nombre (@z.Distrito)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Descripción de servicios *</label>
+                            <textarea name="Descripcion" class="form-control" rows="4" required
+                                      placeholder="Describe los servicios que ofreces, tu experiencia, horarios de atención...">@Model?.Descripcion</textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">URL de foto (opcional)</label>
+                            <input type="url" name="FotoUrl" class="form-control"
+                                   value="@Model?.FotoUrl"
+                                   placeholder="https://ejemplo.com/mi-foto.jpg" />
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-check me-2"></i>Registrarme
+                        </button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-lg ms-2">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

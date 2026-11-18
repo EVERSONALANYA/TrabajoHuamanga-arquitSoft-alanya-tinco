@@ -1,0 +1,114 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A5555555-5555-5555-5555-555555555555}|src\\TrabajoHuamanga.Web\\TrabajoHuamanga.Web.csproj|c:\\users\\asus\\downloads\\trabajohuamanga\\src\\trabajohuamanga.web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A5555555-5555-5555-5555-555555555555}|src\\TrabajoHuamanga.Web\\TrabajoHuamanga.Web.csproj|solutionrelative:src\\trabajohuamanga.web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6666666-6666-6666-6666-666666666666}|src\\TrabajoHuamanga.Tests\\TrabajoHuamanga.Tests.csproj|c:\\users\\asus\\downloads\\trabajohuamanga\\src\\trabajohuamanga.tests\\integracion\\apiintegrationtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6666666-6666-6666-6666-666666666666}|src\\TrabajoHuamanga.Tests\\TrabajoHuamanga.Tests.csproj|solutionrelative:src\\trabajohuamanga.tests\\integracion\\apiintegrationtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6666666-6666-6666-6666-666666666666}|src\\TrabajoHuamanga.Tests\\TrabajoHuamanga.Tests.csproj|c:\\users\\asus\\downloads\\trabajohuamanga\\src\\trabajohuamanga.tests\\e2e\\webe2etests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6666666-6666-6666-6666-666666666666}|src\\TrabajoHuamanga.Tests\\TrabajoHuamanga.Tests.csproj|solutionrelative:src\\trabajohuamanga.tests\\e2e\\webe2etests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6666666-6666-6666-6666-666666666666}|src\\TrabajoHuamanga.Tests\\TrabajoHuamanga.Tests.csproj|c:\\users\\asus\\downloads\\trabajohuamanga\\src\\trabajohuamanga.tests\\dominio\\profesionaltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6666666-6666-6666-6666-666666666666}|src\\TrabajoHuamanga.Tests\\TrabajoHuamanga.Tests.csproj|solutionrelative:src\\trabajohuamanga.tests\\dominio\\profesionaltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6666666-6666-6666-6666-666666666666}|src\\TrabajoHuamanga.Tests\\TrabajoHuamanga.Tests.csproj|c:\\users\\asus\\downloads\\trabajohuamanga\\src\\trabajohuamanga.tests\\aplicacion\\buscarprofesionaltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6666666-6666-6666-6666-666666666666}|src\\TrabajoHuamanga.Tests\\TrabajoHuamanga.Tests.csproj|solutionrelative:src\\trabajohuamanga.tests\\aplicacion\\buscarprofesionaltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Web\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\TrabajoHuamanga.Web\\appsettings.json",
+              "ToolTip": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Web\\appsettings.json",
+              "RelativeToolTip": "src\\TrabajoHuamanga.Web\\appsettings.json",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAgwAoAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-11-11T01:06:06.403Z",
+              "EditorCaption": "",
+              "OwnerCaption": "%2"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BuscarProfesionalTests.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Tests\\Aplicacion\\BuscarProfesionalTests.cs",
+              "RelativeDocumentMoniker": "src\\TrabajoHuamanga.Tests\\Aplicacion\\BuscarProfesionalTests.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Tests\\Aplicacion\\BuscarProfesionalTests.cs",
+              "RelativeToolTip": "src\\TrabajoHuamanga.Tests\\Aplicacion\\BuscarProfesionalTests.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAmwBsAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-10T23:35:53.857Z",
+              "EditorCaption": "",
+              "OwnerCaption": "%2"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProfesionalTests.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Tests\\Dominio\\ProfesionalTests.cs",
+              "RelativeDocumentMoniker": "src\\TrabajoHuamanga.Tests\\Dominio\\ProfesionalTests.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Tests\\Dominio\\ProfesionalTests.cs",
+              "RelativeToolTip": "src\\TrabajoHuamanga.Tests\\Dominio\\ProfesionalTests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-10T23:33:04.831Z",
+              "EditorCaption": "",
+              "OwnerCaption": "%2"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WebE2ETests.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Tests\\E2E\\WebE2ETests.cs",
+              "RelativeDocumentMoniker": "src\\TrabajoHuamanga.Tests\\E2E\\WebE2ETests.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Tests\\E2E\\WebE2ETests.cs",
+              "RelativeToolTip": "src\\TrabajoHuamanga.Tests\\E2E\\WebE2ETests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-10T23:29:40.318Z",
+              "EditorCaption": "",
+              "OwnerCaption": "%2"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApiIntegrationTests.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Tests\\Integracion\\ApiIntegrationTests.cs",
+              "RelativeDocumentMoniker": "src\\TrabajoHuamanga.Tests\\Integracion\\ApiIntegrationTests.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Downloads\\TrabajoHuamanga\\src\\TrabajoHuamanga.Tests\\Integracion\\ApiIntegrationTests.cs",
+              "RelativeToolTip": "src\\TrabajoHuamanga.Tests\\Integracion\\ApiIntegrationTests.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAAA4wHMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-10T23:24:57.902Z",
+              "EditorCaption": "",
+              "OwnerCaption": "%2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

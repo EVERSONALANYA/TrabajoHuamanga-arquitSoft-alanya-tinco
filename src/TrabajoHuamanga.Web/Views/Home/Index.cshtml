@@ -1,0 +1,174 @@
+@model List<ProfesionalDto>
+@{
+    ViewData["Title"] = "Buscar Profesionales";
+    var rubros = ViewBag.Rubros as List<Rubro> ?? new();
+    var zonas = ViewBag.Zonas as List<Zona> ?? new();
+}
+
+<!-- Hero con buscador -->
+<div class="hero-search">
+    <div class="container">
+        <h1 class="text-center mb-2">
+            <i class="fas fa-briefcase me-2"></i>Trabajo Huamanga
+        </h1>
+        <p class="text-center text-white-50 mb-4">
+            Encuentra al profesional que necesitas en Huamanga
+        </p>
+
+        <!-- Formulario de búsqueda -->
+        <form method="get" class="row g-2 justify-content-center">
+            <div class="col-md-3">
+                <select name="rubroId" class="form-select">
+                    <option value="">Todos los rubros</option>
+                    @foreach (var r in rubros)
+                    {
+                        <option value="@r.Id" selected="@(ViewBag.RubroSeleccionado?.ToString() == r.Id.ToString())">
+                            @r.Icono @r.Nombre
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="zonaId" class="form-select">
+                    <option value="">Todas las zonas</option>
+                    @foreach (var z in zonas)
+                    {
+                        <option value="@z.Id" selected="@(ViewBag.ZonaSeleccionada?.ToString() == z.Id.ToString())">
+                            @z.Nombre
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="termino" class="form-control" placeholder="Buscar por nombre..."
+                       value="@ViewBag.Termino" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-warning w-100 fw-bold">
+                    <i class="fas fa-search me-1"></i>Buscar
+                </button>
+            </div>
+        </form>
+
+        <!-- Sugerencia IA -->
+        <div class="text-center mt-3">
+            <button class="btn btn-sm btn-outline-light" data-bs-toggle="collapse" data-bs-target="#iaSection">
+                <span class="ia-badge me-1"><i class="fas fa-robot"></i> IA</span>
+                ¿No sabes qué profesional necesitas?
+            </button>
+        </div>
+        <div class="collapse mt-3" id="iaSection">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" id="iaDescripcion" class="form-control"
+                               placeholder="Describe tu problema... ej: se rompió un caño en la cocina" />
+                        <button class="btn btn-warning" id="btnSugerir" onclick="sugerirRubro()">
+                            <i class="fas fa-magic"></i> Sugerir
+                        </button>
+                    </div>
+                    <div id="iaSugerencia" class="text-white mt-2" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Resultados -->
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">
+            <i class="fas fa-list me-2"></i>@Model.Count profesional(es) encontrado(s)
+        </h5>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <p class="text-muted">No se encontraron profesionales. Intenta con otros filtros.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var prof in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-profesional h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="perfil-avatar me-3" style="width:50px;height:50px;font-size:1.2rem;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1 fw-bold">@prof.NombreCompleto</h6>
+                                    <span class="rubro-badge">@prof.RubroNombre</span>
+                                </div>
+                            </div>
+                            <p class="text-muted small mb-2">
+                                <i class="fas fa-map-marker-alt me-1"></i>@prof.ZonaNombre
+                            </p>
+                            <p class="small mb-2">@prof.Descripcion</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="stars">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= (int)Math.Round(prof.PromedioCalificacion))
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-star empty"></i>
+                                        }
+                                    }
+                                    <small class="text-muted ms-1">(@prof.TotalCalificaciones)</small>
+                                </div>
+                                <a asp-controller="Profesional" asp-action="Perfil" asp-route-id="@prof.Id"
+                                   class="btn btn-sm btn-primary">
+                                    Ver perfil <i class="fas fa-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+async function sugerirRubro() {
+    const desc = document.getElementById('iaDescripcion').value;
+    if (!desc) return;
+
+    const btn = document.getElementById('btnSugerir');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+    try {
+        const resp = await fetch('/Home/SugerirRubro', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'descripcion=' + encodeURIComponent(desc)
+        });
+        const data = await resp.json();
+        const div = document.getElementById('iaSugerencia');
+        div.style.display = 'block';
+        if (data.error) {
+            div.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + data.error;
+        } else {
+            div.innerHTML = '<i class="fas fa-lightbulb"></i> Te recomendamos buscar: <strong>' +
+                data.rubroSugerido + '</strong>' +
+                (data.rubroId ? ' <a href="/?rubroId=' + data.rubroId + '" class="btn btn-sm btn-warning ms-2">Buscar</a>' : '');
+        }
+    } catch {
+        document.getElementById('iaSugerencia').innerHTML = 'Error al consultar IA';
+    }
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-magic"></i> Sugerir';
+}
+</script>
+}
