@@ -90,21 +90,21 @@ export function handleSummary(data) {
 function textSummary(data, opts) {
     const metrics = data.metrics;
     return `
-╔══════════════════════════════════════════════════════╗
-║       RESULTADOS - Prueba de Carga Búsqueda         ║
-╠══════════════════════════════════════════════════════╣
-║ Duración total:     ${data.state?.testRunDurationMs || 'N/A'}ms
-║ VUs máximos:        ${metrics.vus?.values?.max || 'N/A'}
-║ Requests totales:   ${metrics.http_reqs?.values?.count || 'N/A'}
-║
-║ Tiempo respuesta:
-║   p50: ${metrics.http_req_duration?.values?.med?.toFixed(2) || 'N/A'}ms
-║   p95: ${metrics.http_req_duration?.values?.['p(95)']?.toFixed(2) || 'N/A'}ms
-║   p99: ${metrics.http_req_duration?.values?.['p(99)']?.toFixed(2) || 'N/A'}ms
-║
-║ Tasa de error:      ${((metrics.http_req_failed?.values?.rate || 0) * 100).toFixed(2)}%
-║
-║ Búsqueda p95:       ${metrics.busqueda_duration?.values?.['p(95)']?.toFixed(2) || 'N/A'}ms
-╚══════════════════════════════════════════════════════╝
++------------------------------------------------------+
+|       RESULTADOS - Prueba de Carga Busqueda          |
++------------------------------------------------------+
+| Duracion total:     ${data.state?.testRunDurationMs || 'N/A'}ms
+| VUs maximos:        ${metrics.vus?.values?.max || 'N/A'}
+| Requests totales:   ${metrics.http_reqs?.values?.count || 'N/A'}
+|
+| Tiempo respuesta:
+|   p50: ${metrics.http_req_duration?.values?.med?.toFixed(2) || 'N/A'}ms
+|   p95: ${metrics.http_req_duration?.values?.['p(95)']?.toFixed(2) || 'N/A'}ms
+|   p99: ${metrics.http_req_duration?.values?.['p(99)']?.toFixed(2) || 'N/A'}ms
+|
+| Tasa de error:      ${((metrics.http_req_failed?.values?.rate || 0) * 100).toFixed(2)}%
+|
+| Busqueda p95:       ${metrics.busqueda_duration?.values?.['p(95)']?.toFixed(2) || 'N/A'}ms
++------------------------------------------------------+
 `;
 }
