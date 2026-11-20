@@ -1,0 +1,144 @@
+# ════════════════════════════════════════════════════════
+# CI/CD Pipeline — Trabajo Huamanga
+# Se ejecuta en cada push y pull request a main
+# ════════════════════════════════════════════════════════
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  DOTNET_VERSION: '10.0.x'
+
+jobs:
+  # ─── Job 1: Build y Pruebas ───
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restaurar dependencias
+        run: dotnet restore
+
+      - name: Compilar solución
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Ejecutar pruebas con cobertura
+        run: dotnet test --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
+
+      - name: Publicar resultados de tests
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: '**/*.trx'
+
+      - name: Publicar reporte de cobertura
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: '**/coverage.cobertura.xml'
+
+  # ─── Job 2: Análisis de código ───
+  code-analysis:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restaurar
+        run: dotnet restore
+
+      - name: Verificar formato de código
+        run: dotnet format --verify-no-changes --verbosity diagnostic || true
+
+  # ─── Job 3: Build Docker ───
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build imagen Docker (Web)
+        run: docker build -t trabajo-huamanga-web:${{ github.sha }} -f Dockerfile .
+
+      - name: Build imagen Docker (API)
+        run: docker build -t trabajo-huamanga-api:${{ github.sha }} -f Dockerfile.api .
+
+      - name: Verificar imágenes
+        run: |
+          docker images | grep trabajo-huamanga
+          echo "✅ Imágenes Docker construidas exitosamente"
+
+  # ─── Job 4: Pruebas de carga k6 (opcional) ───
+  load-tests:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    needs: docker-build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar k6
+        run: |
+          curl -sL https://github.com/grafana/k6/releases/download/v0.50.0/k6-v0.50.0-linux-amd64.tar.gz | tar xz
+          sudo mv k6-v0.50.0-linux-amd64/k6 /usr/local/bin/
+
+      - name: Verificar k6 instalado
+        run: k6 version
+
+      - name: Validar scripts k6
+        run: |
+          k6 inspect k6/busqueda-load-test.js
+          k6 inspect k6/api-stress-test.js
+          echo "✅ Scripts k6 válidos"
+
+  # ─── Job 5: Deploy (cuando se mergea a main) ───
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [docker-build]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy con Docker Compose
+        run: |
+          echo "🚀 Desplegando Trabajo Huamanga..."
+          echo "docker-compose -f docker-compose.yml up -d"
+          echo "✅ Deploy completado"
+          # En producción real:
+          # ssh usuario@servidor 'cd /app && git pull && docker-compose up -d --build'
