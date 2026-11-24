@@ -3,9 +3,11 @@ namespace TrabajoHuamanga.Dominio;
 public class Profesional
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public string Nombre { get; set; }
-    public string Rubro { get; set; }
-    public string Distrito { get; set; }
+    public string Nombre { get; set; } = string.Empty;
+    public string Rubro { get; set; } = string.Empty;
+    public string Distrito { get; set; } = string.Empty;
+
+    public Profesional() { }
 
     public Profesional(string nombre, string rubro, string distrito)
     {
