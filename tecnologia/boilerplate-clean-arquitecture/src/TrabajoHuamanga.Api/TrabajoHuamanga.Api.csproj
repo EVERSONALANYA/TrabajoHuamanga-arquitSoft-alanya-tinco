@@ -9,4 +9,7 @@
     <ProjectReference Include="..\TrabajoHuamanga.Aplicacion\TrabajoHuamanga.Aplicacion.csproj" />
     <ProjectReference Include="..\TrabajoHuamanga.Infraestructura\TrabajoHuamanga.Infraestructura.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
 </Project>
