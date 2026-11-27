@@ -7,71 +7,35 @@ on:
     branches: [ main ]
 
 env:
-  DOTNET_VERSION: '8.0.x'
-  WORKING_DIR: tecnologia/boilerplate-clean-arquitecture
+  DOTNET_VERSION: '10.0.x'
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.WORKING_DIR }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-      - run: dotnet restore TrabajoHuamanga.sln
-      - run: dotnet build TrabajoHuamanga.sln --no-restore --configuration Release
-      - run: dotnet test TrabajoHuamanga.sln --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results
-          path: '**/test-results.trx'
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: coverage-report
-          path: '**/coverage.cobertura.xml'
-
-  code-analysis:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    defaults:
-      run:
-        working-directory: ${{ env.WORKING_DIR }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-      - run: dotnet restore TrabajoHuamanga.sln
-      - run: dotnet format TrabajoHuamanga.sln --verify-no-changes --verbosity diagnostic || true
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - run: dotnet restore TrabajoHuamanga.sln
+    - run: dotnet build TrabajoHuamanga.sln --no-restore --configuration Release
+    - run: dotnet test TrabajoHuamanga.sln --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results.trx"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: '**/test-results.trx'
 
   docker-build:
     runs-on: ubuntu-latest
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4
-      - name: Verificar Dockerfiles
-        run: |
-          if [ -f Dockerfile ]; then
-            docker build -t trabajo-huamanga:${{ github.sha }} .
-          else
-            echo "Dockerfile pendiente - omitiendo build Docker"
-          fi
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build-and-test, docker-build]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    environment: production
-    steps:
-      - uses: actions/checkout@v4
-      - name: Deploy placeholder
-        run: |
-          echo "Pipeline de deploy configurado"
-          echo "Proyecto: Trabajo Huamanga"
-          echo "Listo para configurar Azure App Service"
+    - uses: actions/checkout@v4
+    - name: Verificar Dockerfile
+      run: |
+        if [ -f Dockerfile ]; then
+          docker build -t trabajo-huamanga:${{ github.sha }} .
+        else
+          echo "Dockerfile pendiente - omitiendo build Docker"
+        fi
