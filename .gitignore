@@ -1,0 +1,25 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Dependencias y builds (para etapas futuras)
+node_modules/
+dist/
+build/
+
+# Variables de entorno
+.env
+.env.*
+
+# Logs
+*.log
+
+# Respaldos de Draw.io
+*.drawio.bkp
+*.drawio.dtmp
