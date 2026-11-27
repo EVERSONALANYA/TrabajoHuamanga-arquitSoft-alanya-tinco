@@ -1,7 +1,4 @@
-bin/
-obj/
+**/bin/
+**/obj/
 .vs/
-.vscode/
-*.md
 .git/
-.gitignore
