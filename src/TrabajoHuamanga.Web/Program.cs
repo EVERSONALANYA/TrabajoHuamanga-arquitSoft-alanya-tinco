@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using TrabajoHuamanga.Dominio.Interfaces;
 using TrabajoHuamanga.Infraestructura.Datos;
@@ -13,7 +14,6 @@ using TrabajoHuamanga.Aplicacion.CasosDeUso.Moderacion;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// PostgreSQL - convertir DATABASE_URL de Railway
 var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 string connectionString;
 if (!string.IsNullOrEmpty(databaseUrl))
@@ -27,31 +27,23 @@ else
     connectionString = builder.Configuration.GetConnectionString("PostgreSQL")!;
 }
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
-
-// IMemoryCache
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddMemoryCache();
 
-// Repositorios
 builder.Services.AddScoped<IProfesionalRepository, ProfesionalRepository>();
 builder.Services.AddScoped<ICalificacionRepository, CalificacionRepository>();
 builder.Services.AddScoped<IRubroRepository, RubroRepository>();
 builder.Services.AddScoped<IZonaRepository, ZonaRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-// Adaptadores
 builder.Services.AddScoped<ICacheBusqueda, CacheBusquedaMemoria>();
 builder.Services.AddSingleton<IGeneradorEnlaceContacto, GeneradorEnlaceWhatsApp>();
 builder.Services.AddSingleton<ISugeridorRubro>(sp =>
 {
     var config = builder.Configuration.GetSection("OpenRouter");
-    return new SugeridorRubroOpenRouter(
-        new HttpClient(),
-        config["ApiKey"] ?? "",
-        config["Model"] ?? "google/gemini-flash-1.5");
+    return new SugeridorRubroOpenRouter(new HttpClient(), config["ApiKey"] ?? "", config["Model"] ?? "google/gemini-flash-1.5");
 });
 
-// Casos de Uso
 builder.Services.AddScoped<RegistrarProfesional>();
 builder.Services.AddScoped<ObtenerProfesional>();
 builder.Services.AddScoped<BuscarProfesional>();
@@ -62,25 +54,31 @@ builder.Services.AddScoped<SugerirRubro>();
 builder.Services.AddScoped<ModerarCalificacion>();
 builder.Services.AddScoped<ReportarCalificacionCasoUso>();
 
-// MVC
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Cuenta/Login";
+        options.LogoutPath = "/Cuenta/Logout";
+        options.AccessDeniedPath = "/Cuenta/Login";
+        options.ExpireTimeSpan = TimeSpan.FromDays(7);
+    });
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Crear BD automaticamente
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureDeleted();
     db.Database.EnsureCreated();
 }
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-}
-
+if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Home/Error"); }
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";

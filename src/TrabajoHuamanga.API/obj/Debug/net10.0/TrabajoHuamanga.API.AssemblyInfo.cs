@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TrabajoHuamanga.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4665bdc95bbfbcd32b5f39c81baa8012ce12637")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5829a329f358f8e7946fed6d0462fa651cecb98f")]
 [assembly: System.Reflection.AssemblyProductAttribute("TrabajoHuamanga.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrabajoHuamanga.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

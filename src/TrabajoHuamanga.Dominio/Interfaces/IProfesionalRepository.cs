@@ -36,3 +36,12 @@ public interface IZonaRepository
     Task<Zona?> ObtenerPorIdAsync(Guid id);
     Task AgregarAsync(Zona zona);
 }
+
+public interface IUsuarioRepository
+{
+    Task<Usuario?> ObtenerPorEmailAsync(string email);
+    Task<Usuario?> ObtenerPorIdAsync(Guid id);
+    Task<List<Usuario>> ObtenerTodosAsync();
+    Task AgregarAsync(Usuario usuario);
+    Task<bool> ExisteEmailAsync(string email);
+}
