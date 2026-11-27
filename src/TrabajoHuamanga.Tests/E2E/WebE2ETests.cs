@@ -8,7 +8,7 @@ using Xunit;
 namespace TrabajoHuamanga.Tests.E2E;
 
 /// <summary>
-/// Pruebas End-to-End: simulan el flujo completo del usuario a través del navegador.
+/// Pruebas End-to-End: simulan el flujo completo del usuario a traves del navegador.
 /// Verifican que las vistas Razor se renderizan correctamente con datos reales.
 /// </summary>
 public class WebE2ETests : IClassFixture<WebApplicationFactory<TrabajoHuamanga.Web.Controllers.HomeController>>
@@ -22,11 +22,11 @@ public class WebE2ETests : IClassFixture<WebApplicationFactory<TrabajoHuamanga.W
             builder.ConfigureServices(services =>
             {
                 var toRemove = services.Where(d =>
-    d.ServiceType == typeof(DbContextOptions<AppDbContext>) ||
-    d.ServiceType == typeof(DbContextOptions) ||
-    d.ServiceType == typeof(AppDbContext) ||
-    (d.ServiceType.FullName != null &&
-     d.ServiceType.FullName.Contains("EntityFrameworkCore"))).ToList();
+                    d.ServiceType == typeof(DbContextOptions<AppDbContext>) ||
+                    d.ServiceType == typeof(DbContextOptions) ||
+                    d.ServiceType == typeof(AppDbContext) ||
+                    (d.ServiceType.FullName != null &&
+                     d.ServiceType.FullName.Contains("EntityFrameworkCore"))).ToList();
                 foreach (var d in toRemove) services.Remove(d);
 
                 services.AddDbContext<AppDbContext>(options =>
@@ -38,10 +38,7 @@ public class WebE2ETests : IClassFixture<WebApplicationFactory<TrabajoHuamanga.W
     [Fact]
     public async Task PaginaInicio_CargaCorrectamente()
     {
-        // Act
         var response = await _client.GetAsync("/");
-
-        // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var html = await response.Content.ReadAsStringAsync();
         Assert.Contains("Trabajo Huamanga", html);
@@ -51,10 +48,7 @@ public class WebE2ETests : IClassFixture<WebApplicationFactory<TrabajoHuamanga.W
     [Fact]
     public async Task PaginaInicio_ContieneBuscador()
     {
-        var response = await _client.GetAsync("/");
-        var html = await response.Content.ReadAsStringAsync();
-
-        // Verificar que los filtros de búsqueda están presentes
+        var html = await (await _client.GetAsync("/")).Content.ReadAsStringAsync();
         Assert.Contains("rubroId", html);
         Assert.Contains("zonaId", html);
         Assert.Contains("termino", html);
@@ -63,42 +57,33 @@ public class WebE2ETests : IClassFixture<WebApplicationFactory<TrabajoHuamanga.W
     [Fact]
     public async Task PaginaInicio_ContieneSeccionIA()
     {
-        var response = await _client.GetAsync("/");
-        var html = await response.Content.ReadAsStringAsync();
-
+        var html = await (await _client.GetAsync("/")).Content.ReadAsStringAsync();
         Assert.Contains("iaDescripcion", html);
         Assert.Contains("sugerirRubro", html);
     }
 
     [Fact]
-    public async Task PaginaRegistro_CargaCorrectamente()
+    public async Task PaginaRegistro_RequiereAutenticacion()
     {
         var response = await _client.GetAsync("/Profesional/Registrar");
-
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var html = await response.Content.ReadAsStringAsync();
-        Assert.Contains("Registrar como Profesional", html);
-        Assert.Contains("NombreCompleto", html);
-        Assert.Contains("Telefono", html);
+        // Debe redirigir al login (302) porque requiere rol Profesional/Administrador
+        Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+        Assert.Contains("/Cuenta/Login", response.Headers.Location?.ToString() ?? "");
     }
 
     [Fact]
-    public async Task PanelAdmin_CargaCorrectamente()
+    public async Task PanelAdmin_RequiereAutenticacion()
     {
         var response = await _client.GetAsync("/Admin");
-
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var html = await response.Content.ReadAsStringAsync();
-        Assert.Contains("Panel de Administración", html);
-        Assert.Contains("Profesionales Activos", html);
-        Assert.Contains("Calificaciones Reportadas", html);
+        // Debe redirigir al login (302) porque requiere rol Administrador
+        Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+        Assert.Contains("/Cuenta/Login", response.Headers.Location?.ToString() ?? "");
     }
 
     [Fact]
     public async Task Busqueda_ConFiltros_RetornaResultados()
     {
         var response = await _client.GetAsync("/?termino=electricista");
-
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var html = await response.Content.ReadAsStringAsync();
         Assert.Contains("profesional(es) encontrado(s)", html);
@@ -108,27 +93,44 @@ public class WebE2ETests : IClassFixture<WebApplicationFactory<TrabajoHuamanga.W
     public async Task PerfilInexistente_Retorna404()
     {
         var response = await _client.GetAsync($"/Profesional/Perfil/{Guid.NewGuid()}");
-
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
     [Fact]
     public async Task Navbar_ContieneTodosLosEnlaces()
     {
-        var response = await _client.GetAsync("/");
-        var html = await response.Content.ReadAsStringAsync();
-
+        var html = await (await _client.GetAsync("/")).Content.ReadAsStringAsync();
         Assert.Contains("Buscar", html);
-        Assert.Contains("Registrarse", html);
-        Assert.Contains("Admin", html);
+        Assert.Contains("Ingresar", html);
+        Assert.Contains("Crear Cuenta", html);
+    }
+
+    [Fact]
+    public async Task PaginaLogin_CargaCorrectamente()
+    {
+        var response = await _client.GetAsync("/Cuenta/Login");
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var html = await response.Content.ReadAsStringAsync();
+        Assert.Contains("Iniciar Sesion", html);
+        Assert.Contains("email", html);
+        Assert.Contains("password", html);
+    }
+
+    [Fact]
+    public async Task PaginaRegistrarCuenta_CargaCorrectamente()
+    {
+        var response = await _client.GetAsync("/Cuenta/Registrar");
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var html = await response.Content.ReadAsStringAsync();
+        Assert.Contains("Crear Cuenta", html);
+        Assert.Contains("Vecino", html);
+        Assert.Contains("Profesional", html);
     }
 
     [Fact]
     public async Task Footer_ContieneInformacionUniversidad()
     {
-        var response = await _client.GetAsync("/");
-        var html = await response.Content.ReadAsStringAsync();
-
+        var html = await (await _client.GetAsync("/")).Content.ReadAsStringAsync();
         Assert.Contains("UNSCH", html);
         Assert.Contains("Arquitectura de Software", html);
     }
