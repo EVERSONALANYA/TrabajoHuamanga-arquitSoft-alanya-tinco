@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TrabajoHuamanga.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+88c37a10e8430bb086409dfffff96e91ec740362")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d976f53d6d5f6e9d28871641bf6ef8af98bc8bac")]
 [assembly: System.Reflection.AssemblyProductAttribute("TrabajoHuamanga.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrabajoHuamanga.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
