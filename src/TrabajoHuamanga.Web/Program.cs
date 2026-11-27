@@ -64,18 +64,32 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Trabajo Huamanga API",
+        Version = "v1",
+        Description = "API del directorio de profesionales de Huamanga - IS-488 Arquitectura de Software UNSCH"
+    });
+});
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-  
     db.Database.EnsureCreated();
 }
 
 if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Home/Error"); }
 app.UseStaticFiles();
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Trabajo Huamanga API v1");
+});
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
