@@ -6,6 +6,12 @@ using TrabajoHuamanga.Infraestructura.Repositorios;
 using TrabajoHuamanga.Infraestructura.Cache;
 using TrabajoHuamanga.Infraestructura.Adaptadores;
 using TrabajoHuamanga.Aplicacion;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.Profesionales;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.Busqueda;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.Reputacion;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.Contacto;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.SugerenciaRubro;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.Moderacion;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,14 +28,14 @@ builder.Services.AddScoped<IZonaRepository, ZonaRepository>();
 
 builder.Services.AddScoped<ICacheBusqueda, CacheBusquedaMemoria>();
 builder.Services.AddSingleton<IGeneradorEnlaceContacto, GeneradorEnlaceWhatsApp>();
-builder.Services.AddSingleton<ISugerIdorRubro>(sp => { var config = builder.Configuration.GetSection("OpenRouter"); return new SugerIdorRubroOpenRouter(new HttpClient(), config["ApiKey"] ?? "", config["Model"] ?? "google/gemini-flash-1.5"); });
+builder.Services.AddSingleton<ISugeridorRubro>(sp => { var config = builder.Configuration.GetSection("OpenRouter"); return new SugeridorRubroOpenRouter(new HttpClient(), config["ApiKey"] ?? "", config["Model"] ?? "google/gemini-flash-1.5"); });
 
 builder.Services.AddScoped<RegistrarProfesional>();
 builder.Services.AddScoped<ObtenerProfesional>();
 builder.Services.AddScoped<BuscarProfesional>();
 builder.Services.AddScoped<RegistrarCalificacion>();
 builder.Services.AddScoped<ObtenerCalificaciones>();
-builder.Services.AddScoped<GenerarEnlaceContacto>();
+builder.Services.AddScoped<GenerarEnlaceWhatsApp>();
 builder.Services.AddScoped<SugerirRubro>();
 builder.Services.AddScoped<ModerarCalificacion>();
 builder.Services.AddScoped<ReportarCalificacionCasoUso>();
