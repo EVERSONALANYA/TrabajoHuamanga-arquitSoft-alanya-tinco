@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrabajoHuamanga.Aplicacion.CasosDeUso;
-using TrabajoHuamanga.Dominio.Entidades;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.Busqueda;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.Profesionales;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.Reputacion;
+using TrabajoHuamanga.Aplicacion.CasosDeUso.SugerenciaRubro;
+using TrabajoHuamanga.Aplicacion.DTOs;
 
 namespace TrabajoHuamanga.Web.Controllers
 {
@@ -10,55 +13,59 @@ namespace TrabajoHuamanga.Web.Controllers
     [Produces("application/json")]
     public class ProfesionalesController : ControllerBase
     {
-        private readonly BuscarProfesionales _buscar;
-        private readonly ObtenerPerfil _obtenerPerfil;
+        private readonly BuscarProfesional _buscar;
+        private readonly ObtenerProfesional _obtenerProfesional;
         private readonly RegistrarProfesional _registrar;
-        private readonly CalificarProfesional _calificar;
-        private readonly ObtenerRubros _obtenerRubros;
+        private readonly RegistrarCalificacion _registrarCalificacion;
+        private readonly ObtenerCalificaciones _obtenerCalificaciones;
+        private readonly SugerirRubro _sugerirRubro;
 
         public ProfesionalesController(
-            BuscarProfesionales buscar,
-            ObtenerPerfil obtenerPerfil,
+            BuscarProfesional buscar,
+            ObtenerProfesional obtenerProfesional,
             RegistrarProfesional registrar,
-            CalificarProfesional calificar,
-            ObtenerRubros obtenerRubros)
+            RegistrarCalificacion registrarCalificacion,
+            ObtenerCalificaciones obtenerCalificaciones,
+            SugerirRubro sugerirRubro)
         {
             _buscar = buscar;
-            _obtenerPerfil = obtenerPerfil;
+            _obtenerProfesional = obtenerProfesional;
             _registrar = registrar;
-            _calificar = calificar;
-            _obtenerRubros = obtenerRubros;
+            _registrarCalificacion = registrarCalificacion;
+            _obtenerCalificaciones = obtenerCalificaciones;
+            _sugerirRubro = sugerirRubro;
         }
 
         /// <summary>
-        /// Buscar profesionales por termino (nombre, rubro, distrito)
+        /// Buscar profesionales por rubro, zona y/o termino
         /// </summary>
         [HttpGet("buscar")]
-        public async Task<IActionResult> Buscar([FromQuery] string termino = "")
+        public async Task<IActionResult> Buscar([FromQuery] Guid? rubroId, [FromQuery] Guid? zonaId, [FromQuery] string? termino)
         {
-            var resultados = await _buscar.EjecutarAsync(termino);
-            return Ok(new { total = resultados.Count(), profesionales = resultados });
+            var dto = new BusquedaDto(rubroId, zonaId, termino);
+            var resultados = await _buscar.EjecutarAsync(dto);
+            return Ok(new { total = resultados.Count, profesionales = resultados });
         }
 
         /// <summary>
-        /// Obtener perfil completo de un profesional por ID
+        /// Obtener perfil de un profesional por ID
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<IActionResult> ObtenerPerfil(int id)
+        public async Task<IActionResult> ObtenerPerfil(Guid id)
         {
-            var profesional = await _obtenerPerfil.EjecutarAsync(id);
+            var profesional = await _obtenerProfesional.EjecutarAsync(id);
             if (profesional == null) return NotFound(new { mensaje = "Profesional no encontrado" });
             return Ok(profesional);
         }
 
         /// <summary>
-        /// Obtener lista de rubros disponibles
+        /// Obtener calificaciones de un profesional
         /// </summary>
-        [HttpGet("rubros")]
-        public async Task<IActionResult> ObtenerRubros()
+        [HttpGet("{id}/calificaciones")]
+        public async Task<IActionResult> ObtenerCalificaciones(Guid id)
         {
-            var rubros = await _obtenerRubros.EjecutarAsync();
-            return Ok(rubros);
+            var calificaciones = await _obtenerCalificaciones.EjecutarAsync(id);
+            return Ok(calificaciones);
         }
 
         /// <summary>
@@ -66,22 +73,17 @@ namespace TrabajoHuamanga.Web.Controllers
         /// </summary>
         [HttpPost("registrar")]
         [Authorize(Roles = "Profesional,Administrador")]
-        public async Task<IActionResult> Registrar([FromBody] RegistrarProfesionalRequest request)
+        public async Task<IActionResult> Registrar([FromBody] CrearProfesionalDto dto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var profesional = new Profesional
+            try
             {
-                Nombre = request.Nombre,
-                Rubro = request.Rubro,
-                Telefono = request.Telefono,
-                Distrito = request.Distrito,
-                Descripcion = request.Descripcion,
-                FechaRegistro = DateTime.UtcNow
-            };
-
-            await _registrar.EjecutarAsync(profesional);
-            return CreatedAtAction(nameof(ObtenerPerfil), new { id = profesional.Id }, profesional);
+                var resultado = await _registrar.EjecutarAsync(dto);
+                return CreatedAtAction(nameof(ObtenerPerfil), new { id = resultado.Id }, resultado);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
 
         /// <summary>
@@ -89,36 +91,46 @@ namespace TrabajoHuamanga.Web.Controllers
         /// </summary>
         [HttpPost("{id}/calificar")]
         [Authorize]
-        public async Task<IActionResult> Calificar(int id, [FromBody] CalificarRequest request)
+        public async Task<IActionResult> Calificar(Guid id, [FromBody] CalificarRequest request)
         {
-            if (request.Puntuacion < 1 || request.Puntuacion > 5)
-                return BadRequest(new { mensaje = "La puntuacion debe ser entre 1 y 5" });
-
-            var calificacion = new Calificacion
+            try
             {
-                ProfesionalId = id,
-                Puntuacion = request.Puntuacion,
-                Comentario = request.Comentario,
-                Fecha = DateTime.UtcNow
-            };
-
-            await _calificar.EjecutarAsync(calificacion);
-            return Ok(new { mensaje = "Calificacion registrada exitosamente" });
+                var dto = new CrearCalificacionDto(id, request.NombreUsuario, request.Puntaje, request.Comentario);
+                var resultado = await _registrarCalificacion.EjecutarAsync(dto);
+                return Ok(resultado);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { mensaje = ex.Message });
+            }
         }
-    }
 
-    public class RegistrarProfesionalRequest
-    {
-        public string Nombre { get; set; } = "";
-        public string Rubro { get; set; } = "";
-        public string Telefono { get; set; } = "";
-        public string Distrito { get; set; } = "";
-        public string Descripcion { get; set; } = "";
+        /// <summary>
+        /// Sugerir rubro usando IA (OpenRouter/Gemini)
+        /// </summary>
+        [HttpPost("sugerir-rubro")]
+        public async Task<IActionResult> SugerirRubro([FromBody] SugerenciaRubroDto dto)
+        {
+            try
+            {
+                var resultado = await _sugerirRubro.EjecutarAsync(dto);
+                return Ok(resultado);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
+        }
     }
 
     public class CalificarRequest
     {
-        public int Puntuacion { get; set; }
-        public string Comentario { get; set; } = "";
+        public string NombreUsuario { get; set; } = "";
+        public int Puntaje { get; set; }
+        public string? Comentario { get; set; }
     }
 }
